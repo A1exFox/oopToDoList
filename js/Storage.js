@@ -1,4 +1,4 @@
-export class Storate {
+export class Storage {
   static #getData() {
     const data = localStorage.getItem('todo') || '[]';
     return data;

@@ -3,4 +3,4 @@ import {Form} from './Form.js';
 
 const list = document.querySelector('[data-list]');
 const container = new Container(list);
-const form = new Form(container);
+new Form(container);

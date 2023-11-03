@@ -1,16 +1,15 @@
 import {Item} from './Item.js';
-import {Storate} from './Storage.js';
-// Storate.set(['lorem10', 'call to mike', 'get laptop']);
+import {Storage} from './Storage.js';
 
 export class Container {
-  constructor(anchor) {
-    this.#createItems();
-    this._anchor = anchor;
-    this.#attachToPage();
+  static anchor = document.querySelector('[data-list]');
+  constructor() {
+    this.#initItems();
+    this.#attachToAnchor();
   }
 
-  #createItems() {
-    const dataArray = Storate.get();
+  #initItems() {
+    const dataArray = Storage.get();
     const callback = this.#removeItem.bind(this);
     const contents = [];
     const items = [];
@@ -22,7 +21,18 @@ export class Container {
     this._items = items;
   }
 
-  newItem() {}
+  newItem(content) {
+    const isExistContent = this._contents.includes(content);
+    if (isExistContent) {
+      alert(`${content} is exist.`);
+      return;
+    }
+    const callback = this.#removeItem.bind(this);
+    this._contents.push(content);
+    this._items.push(new Item(content, callback));
+    Storage.set(this._contents);
+    this.#attachToAnchor(this._contents);
+  }
 
   #removeItem(item) {
     const items = this._items;
@@ -30,15 +40,14 @@ export class Container {
     const index = items.indexOf(item);
     items.splice(index, 1);
     contents.splice(index, 1);
-    Storate.set(contents);
+    Storage.set(contents);
   }
 
-  #attachToPage() {
-    const anchor = this._anchor;
+  #attachToAnchor() {
     const items = this._items;
     for (const item of items) {
       const element = item.getElement();
-      anchor.insertAdjacentElement('afterbegin', element);
+      Container.anchor.insertAdjacentElement('afterbegin', element);
     }
   }
 }
