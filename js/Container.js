@@ -9,19 +9,23 @@ export class Container {
 
   #getItems(contents) {
     const items = [];
+    const callback = this.#removeItems.bind(this);
     for (const content of contents) {
-      const item = new Item(content);
-      item.initListener(this.onClick.bind(this, item));
-      items.push(item);
+      items.push(new Item(content, callback));
     }
     return items;
   }
 
-  onClick(item) {}
+  #removeItems(item) {
+    const items = this._items;
+    const index = items.indexOf(item);
+    items.splice(index, 1);
+  }
 
   #attachToPage() {
     const anchor = this._anchor;
-    for (const item of this._items) {
+    const items = this._items;
+    for (const item of items) {
       const element = item.getElement();
       anchor.insertAdjacentElement('beforeend', element);
     }
