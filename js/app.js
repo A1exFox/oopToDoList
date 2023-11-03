@@ -1,6 +1,6 @@
 import {Container} from './Container.js';
+import {Form} from './Form.js';
 
 const list = document.querySelector('[data-list]');
-const contents = ['lorem10', 'call to mike', 'get laptop'];
-const container = new Container(contents, list);
-// console.log(container);
+const container = new Container(list);
+const form = new Form(container);

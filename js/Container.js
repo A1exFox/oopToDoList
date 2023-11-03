@@ -1,25 +1,34 @@
 import {Item} from './Item.js';
+import {Storate} from './Storage.js';
+// Storate.set(['lorem10', 'call to mike', 'get laptop']);
 
 export class Container {
-  constructor(contents, anchor) {
-    this._items = this.#getItems(contents);
+  constructor(anchor) {
+    this._items = this.#createItems();
     this._anchor = anchor;
     this.#attachToPage();
   }
 
-  #getItems(contents) {
-    const items = [];
-    const callback = this.#removeItems.bind(this);
-    for (const content of contents) {
-      items.push(new Item(content, callback));
-    }
+  #createItems() {
+    const contents = Storate.get();
+    const items = contents.map((content) => this.#createItem(content));
     return items;
   }
+  #createAndSetItem(content) {}
+  #createItem(content) {
+    const callback = this.#removeItem.bind(this);
+    this._contents = this._contents || [];
+    this._contents.push(content);
+    return new Item(content, callback);
+  }
 
-  #removeItems(item) {
+  #removeItem(item) {
     const items = this._items;
+    const contents = this._contents;
     const index = items.indexOf(item);
     items.splice(index, 1);
+    contents.splice(index, 1);
+    Storate.set(contents);
   }
 
   #attachToPage() {
@@ -27,7 +36,7 @@ export class Container {
     const items = this._items;
     for (const item of items) {
       const element = item.getElement();
-      anchor.insertAdjacentElement('beforeend', element);
+      anchor.insertAdjacentElement('afterbegin', element);
     }
   }
 }

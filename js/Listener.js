@@ -8,7 +8,6 @@ export class Listener {
     target.addEventListener('click', handler, {once: true});
   }
   #handler() {
-    // console.log(this);
     this._callback();
   }
 }
