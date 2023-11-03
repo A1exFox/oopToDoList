@@ -10,15 +10,14 @@ export class Container {
   #getItems(contents) {
     const items = [];
     for (const content of contents) {
-      items.push(new Item(content, this.onClick.bind(this)));
+      const item = new Item(content);
+      item.initListener(this.onClick.bind(this, item));
+      items.push(item);
     }
     return items;
   }
 
-  onClick(target) {
-    console.log(this);
-    console.log(target);
-  }
+  onClick(item) {}
 
   #attachToPage() {
     const anchor = this._anchor;

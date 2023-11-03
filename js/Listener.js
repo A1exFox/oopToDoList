@@ -1,8 +1,8 @@
 export class Listener {
-  constructor(target, callback) {
-    this.#init(target, callback);
+  constructor(target) {
+    this._target = target;
   }
-  #init(target, callback) {
-    target.addEventListener('click', callback, {once: true});
+  init(callback) {
+    this._target.addEventListener('click', callback, {once: true});
   }
 }

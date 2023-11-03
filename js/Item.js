@@ -1,19 +1,18 @@
 import {Listener} from './Listener.js';
 
 export class Item {
-  constructor(content, callback) {
+  constructor(content) {
     this._element = this.#createElement(content);
-    this._callback = callback;
     const button = this.#getRemoveButton();
-    new Listener(button, this.onClick.bind(this));
+    this._listener = new Listener(button);
+    // new Listener(button, this.onClick.bind(this));
   }
 
   getElement() {
     return this._element;
   }
-
-  onClick() {
-    this._callback(this);
+  initListener(callback) {
+    this._listener.init(callback);
   }
 
   #getRemoveButton() {
