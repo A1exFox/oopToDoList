@@ -4,23 +4,25 @@ import {Storate} from './Storage.js';
 
 export class Container {
   constructor(anchor) {
-    this._items = this.#createItems();
+    this.#createItems();
     this._anchor = anchor;
     this.#attachToPage();
   }
 
   #createItems() {
-    const contents = Storate.get();
-    const items = contents.map((content) => this.#createItem(content));
-    return items;
-  }
-  #createAndSetItem(content) {}
-  #createItem(content) {
+    const dataArray = Storate.get();
     const callback = this.#removeItem.bind(this);
-    this._contents = this._contents || [];
-    this._contents.push(content);
-    return new Item(content, callback);
+    const contents = [];
+    const items = [];
+    for (const data of dataArray) {
+      contents.push(data);
+      items.push(new Item(data, callback));
+    }
+    this._contents = contents;
+    this._items = items;
   }
+
+  newItem() {}
 
   #removeItem(item) {
     const items = this._items;
