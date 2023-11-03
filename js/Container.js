@@ -10,15 +10,14 @@ export class Container {
   #getItems(contents) {
     const items = [];
     for (const content of contents) {
-      items.push(new Item(content, this.onClick));
+      items.push(new Item(content, this.onClick.bind(this)));
     }
     return items;
   }
 
-  onClick() {
-    // console.log(this.getElement());
-    // this.getElement().remove();
+  onClick(target) {
     console.log(this);
+    console.log(target);
   }
 
   #attachToPage() {
